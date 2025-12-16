@@ -31,12 +31,13 @@ pipeline {
                             ubuntu@34.224.84.252:/opt/app/
 
                         echo "Starting application on EC2..."
-                        ssh -T -o StrictHostKeyChecking=no ubuntu@34.224.84.252 '
+                        ssh -o StrictHostKeyChecking=no ubuntu@34.224.84.252 << 'EOF'
                             pkill -f demo-1.0.0.jar || true
-                            setsid nohup java -jar /opt/app/demo-1.0.0.jar \
-                                > /opt/app/app.log 2>&1 < /dev/null &
-                            exit 0
-                        '
+                            nohup java -jar /opt/app/demo-1.0.0.jar \
+                                > /opt/app/app.log 2>&1 &
+                        EOF
+
+                        echo "Deployment command executed successfully"
                     '''
                 }
             }
