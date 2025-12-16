@@ -17,14 +17,14 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                bat 'mvn clean package'
             }
         }
 
         stage('Deploy to EC2') {
             steps {
                 sshagent(['ec2-ssh-key']) {
-                    sh '''
+                    bat '''
                         echo "Copying artifact to EC2..."
                         scp -o StrictHostKeyChecking=no \
                             target/demo-1.0.0.jar \
